@@ -10,3 +10,4 @@ Funcionalidade: Adicionar Produto ao Carrinho
     Quando eu clicar no botão "Adicionar ao Carrinho"
     Então aparece uma mensagem de confirmação "Produto adicionado ao carrinho!"
     E o produto deve ser exibido no carrinho, com as informações corretas
+    

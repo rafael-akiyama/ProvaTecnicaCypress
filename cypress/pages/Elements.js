@@ -23,6 +23,7 @@ export const ELEMENTS = {
   pagamentoPix: "[id='payment-pix']",
   checkTermos: "[id='terms']",
   botaoFinalizarPedido: ".btn.btn-primary",
+  mensagemErroCamposObrigatorios: "[id='alert-container']",
 
   // Elementos Status do Pedido //
   statusPage: "http://localhost:3000/status.html",

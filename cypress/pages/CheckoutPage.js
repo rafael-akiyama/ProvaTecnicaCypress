@@ -18,6 +18,11 @@ class CheckoutPage{
     cy.get(el.botaoFinalizarPedido).click()
   }
 
+  validarMensagemErroCamposObrigatorios() {
+    cy.get(el.mensagemErroCamposObrigatorios).should('contain', 'Por favor, preencha todos os campos obrigatório marcados com asteriscos!')
+  }
+    
+
 }
 
 export default CheckoutPage

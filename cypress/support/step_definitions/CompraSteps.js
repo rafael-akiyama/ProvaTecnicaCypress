@@ -60,3 +60,27 @@ Then('devo ser direcionado para a página do status do pedido, com a informaçã
   statusPage.validarStatusPedido();
   cy.screenshot('2.6-Então devo ser direcionado para a página do status do pedido, com a informação "Pagamento aprovado"');
 });
+
+Given('que estou na página de checkout com produto adicionado ao carrinho', () => {
+  produtoPage.visit();
+  produtoPage.clicarPrimeiroProduto();
+  carrinhoPage.visitCarrinho();
+  carrinhoPage.clicarCheckout();
+  cy.screenshot('3.1-Dado que estou na página de checkout com o primeiro produto adicionado ao carrinho');
+});
+
+Given('não preenchi os campos obrigatórios', () => {
+  cy.screenshot('3.2-Dado que não preenchi todos os campos obrigatórios');
+});
+
+When('clico em "Finalizar Pedido"', () => {
+  checkoutPage.clicarFinalizarPedido();
+  cy.screenshot('3.3-Quando eu clicar no botão "Finalizar Pedido"');
+});
+
+Then('devo ser apresentado a mensagens de erro "Por favor, preencha todos os campos obrigatório marcados com asteriscos!"', () => {
+  checkoutPage.validarMensagemErroCamposObrigatorios();
+  cy.screenshot('3.4-Então devo ser apresentado a mensagens de erro "Por favor, preencha todos os campos obrigatório marcados com asteriscos!"');
+  carrinhoPage.visitCarrinho();
+  carrinhoPage.removerProduto();
+});

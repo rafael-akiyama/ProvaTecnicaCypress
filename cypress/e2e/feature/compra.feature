@@ -21,9 +21,9 @@ Funcionalidade: Comprar o primeiro produto
     E clico no botão "Finalizar Pedido"
     Então devo ser direcionado para a página do status do pedido, com a informação "Pagamento aprovado"
 
-  #@tag3
-  #Cenário: Exibir mensagens de erro para campos obrigatórios não preenchidos
-  #  Dado que estou na página de checkout
-  #  E não preenchi todos os campos obrigatórios
-  #  Quando eu clicar no botão "Finalizar Pedido"
-  #  Então devo ser apresentado a mensagens de erro "Por favor, preencha todos os campos obrigatório marcados com asteriscos!"
+  @tag3
+  Cenário: Exibir mensagens de erro para campos obrigatórios não preenchidos
+    Dado que estou na página de checkout com produto adicionado ao carrinho
+    E não preenchi os campos obrigatórios
+    Quando clico em "Finalizar Pedido"
+    Então devo ser apresentado a mensagens de erro "Por favor, preencha todos os campos obrigatório marcados com asteriscos!"

@@ -7,10 +7,24 @@ export const ELEMENTS = {
   botaoCarrinho: "a[href='/cart.html']",
 
   // Elementos do Carrinho //
-  botaoCheckout: "[data-test='add-to-cart-sauce-labs-backpack']",
+  carrinhoPage: "http://localhost:3000/cart.html",
+  botaoCheckout: ".btn.btn-primary",
   confirmacaoProduto1: "div.cart-item legend",
+  botaoRemoverProduto: ".btn.btn-danger.remove-from-cart",
 
   // Elementos Checkout //
-  botaaaaoCheckout: "[data-test='checkout']",
-  nomeCheckout: "[data-test='firstName']"
+  checkoutPage: "http://localhost:3000/checkout.html",
+  campoNome: "[id='first-name']",
+  campoSobrenome: "[id='last-name']",
+  campoEndereco: "[id='address']",
+  campoNumero: "[id='number']",
+  campoCEP: "[id='cep']",
+  campoEmail: "[id='email']",
+  pagamentoPix: "[id='payment-pix']",
+  checkTermos: "[id='terms']",
+  botaoFinalizarPedido: ".btn.btn-primary",
+
+  // Elementos Status do Pedido //
+  statusPage: "http://localhost:3000/status.html",
+  statusPedido: "[id='order-status']"
 }

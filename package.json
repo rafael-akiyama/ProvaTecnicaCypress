@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/server.js",
-    "db": "node scripts/init_db.js"
+    "db": "node scripts/init_db.js",
+    "test:bdd": "npx cypress run",
+    "report:bdd:open": "node -e \"require('open')('cypress/reports/bdd/cucumber-report.html')\""
   },
   "keywords": [],
   "author": "",
@@ -28,5 +30,23 @@
     "cypress": "^13.0.0",
     "cypress-mochawesome-reporter": "^4.0.2",
     "esbuild": "^0.27.3"
+  },
+  "cypress-cucumber-preprocessor": {
+    "messages": {
+      "enabled": true,
+      "output": "cypress/reports/bdd/cucumber-messages.ndjson"
+    },
+    "json": {
+      "enabled": true,
+      "output": "cypress/reports/bdd/cucumber-report.json"
+    },
+    "html": {
+      "enabled": true,
+      "output": "cypress/reports/bdd/cucumber-report.html"
+    },
+    "attachments": {
+      "addScreenshots": true,
+      "addVideos": false
+    }
   }
 }

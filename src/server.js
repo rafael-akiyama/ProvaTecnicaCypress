@@ -668,6 +668,8 @@ app.listen(port, async () => {
   console.log(`Documentação rodando em http://localhost:${port}/api-docs`);
 });
 
-import("open").then((open) => {
-  open.default(`http://localhost:${port}`);
-});
+if (process.env.OPEN_BROWSER !== "false") {
+  import("open").then((open) => {
+    open.default(`http://localhost:${port}`);
+  });
+}

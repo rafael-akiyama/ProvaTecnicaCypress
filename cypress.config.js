@@ -3,6 +3,7 @@ const { addCucumberPreprocessorPlugin } = require('@badeball/cypress-cucumber-pr
 const { createEsbuildPlugin } = require('@badeball/cypress-cucumber-preprocessor/esbuild');
 const { spawn, exec } = require('child_process');
 const http = require('http');
+const net = require('net');
 
 let serverProcess = null;
 let intentionalStop = false;
@@ -33,6 +34,61 @@ function waitForServer(url, timeoutMs = 30000) {
     };
 
     check();
+  });
+}
+
+function isPortInUse(port, host = '127.0.0.1') {
+  return new Promise((resolve) => {
+    const socket = net.connect({ port, host });
+
+    socket.once('connect', () => {
+      socket.destroy();
+      resolve(true);
+    });
+
+    socket.once('error', () => {
+      resolve(false);
+    });
+  });
+}
+
+async function waitForPortToBeFree(port, timeoutMs = 30000) {
+  const startTime = Date.now();
+
+  while (Date.now() - startTime < timeoutMs) {
+    const inUse = await isPortInUse(port);
+    if (!inUse) {
+      return;
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, 300));
+  }
+
+  throw new Error(`A porta ${port} não foi liberada dentro de ${timeoutMs}ms`);
+}
+
+function waitForProcessExit(processRef, timeoutMs = 10000) {
+  return new Promise((resolve) => {
+    if (!processRef || processRef.killed) {
+      resolve();
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      if (!processRef.killed) {
+        try {
+          processRef.kill('SIGKILL');
+        } catch {
+          // noop
+        }
+      }
+      resolve();
+    }, timeoutMs);
+
+    processRef.once('exit', () => {
+      clearTimeout(timeout);
+      resolve();
+    });
   });
 }
 
@@ -100,14 +156,14 @@ module.exports = {
           }
 
           await freePort3000();
+          await waitForPortToBeFree(3000, 30000);
 
-          serverProcess = spawn('npm', ['start'], {
+          serverProcess = spawn(process.execPath, ['src/server.js'], {
             cwd: process.cwd(),
             env: {
               ...process.env,
               OPEN_BROWSER: 'false',
             },
-            shell: true,
             stdio: 'pipe',
           });
 
@@ -135,15 +191,18 @@ module.exports = {
         async stopApp() {
           if (serverProcess && !serverProcess.killed) {
             intentionalStop = true;
+            const processRef = serverProcess;
             if (process.platform === 'win32') {
               await runCommand(`taskkill /PID ${serverProcess.pid} /T /F`).catch(() => null);
             } else {
-              serverProcess.kill('SIGTERM');
+              processRef.kill('SIGTERM');
+              await waitForProcessExit(processRef, 10000);
             }
             serverProcess = null;
           }
 
           await freePort3000();
+          await waitForPortToBeFree(3000, 30000);
           return null;
         },
       });

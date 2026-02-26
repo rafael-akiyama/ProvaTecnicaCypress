@@ -10,9 +10,19 @@ module.exports = {
         plugins: [createEsbuildPlugin(config)],
       });
       on('file:preprocessor', bundler);
+
+      // Habilitar detalhe dos cenários no console (BDD Logger)
+      on('task', {
+        log(message) {
+          console.log(message);
+          return null;
+        },
+      });
+
       return config;
     },
     specPattern: 'cypress/e2e/**/*.feature',
+    supportFile: 'cypress/support/e2e.js',
 
     env: {
       apiBaseUrl: "http://localhost:3000",

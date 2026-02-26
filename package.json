@@ -24,6 +24,7 @@
   "devDependencies": {
     "@badeball/cypress-cucumber-preprocessor": "^24.0.1",
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.8",
+    "cucumber": "^6.0.7",
     "cypress": "^13.0.0",
     "cypress-mochawesome-reporter": "^4.0.2",
     "esbuild": "^0.27.3"
